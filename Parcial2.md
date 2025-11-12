@@ -8,32 +8,21 @@ Un agricultor desea monitorear la temperatura (25 °C–50 °C) de su invernader
 
 ### 1. Lectura de temperatura (LM35)
 
-- El LM35 entrega **10 mV/°C**. Para 25–50 °C ⇒ 0.25–0.50 V.Lectura de temperatura (LM35)
-
+- El LM35 entrega **10 mV/°C**. Para 25–50 °C ⇒ 0.25–0.50 V.
 - Diseñar el circuito de acondicionamiento si lo consideran necesario (op-amp para ampliar rango) o, sin op-amp, usar **ADC1**, resolución **12 bits**.
-
-- Documentar la relación **cuentas ADC → voltios → °C**.El LM35 entrega 10 mV/°C. Para 25–50 °C ⇒ 0.25–0.50 V.
-
-
+- Documentar la relación **cuentas ADC → voltios → °C**.
 
 ### 2. Validación de datos por Serial
 
 - Permitir **simulación** de la lectura con comandos por Serial:
-
-  - T=<valor> (°C, T=32.5)Documentar la relación cuentas ADC → voltios → °C.
-
+  - T=<valor> (°C, T=32.5)
   - B1=<0|1> y B2=<0|1> para simular botones
-
-- Indicar en consola si se usa **sensor real o simulación**.Validación de datos por Serial
-
-
+- Indicar en consola si se usa **sensor real o simulación**.
 
 ### 3. Evaluación de temperatura (umbrales incluyentes)
 
 - T ≤ 25 °C → "Temperatura baja. Activando calefacción." → Encender **LED Verde** y apagar los otros LEDs.
-
-- 26 °C ≤ T ≤ 49 °C → "Temperatura óptima. Sistema en espera." → Encender **LED Amarillo** y apagar los otros LEDs.T=<valor> (°C, T=32.5)
-
+- 26 °C ≤ T ≤ 49 °C → "Temperatura óptima. Sistema en espera." → Encender **LED Amarillo** y apagar los otros LEDs.
 - T ≥ 50 °C → "Temperatura alta. Desactivando calefacción." → Encender **LED Rojo** y apagar los otros LEDs.
 
 ### 4. Cálculo de promedio (Botón 1)

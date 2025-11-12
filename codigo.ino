@@ -1,16 +1,29 @@
-// Simulación de monitoreo de temperatura en ESP32
-
+// Simulación de monitoreo de temperatura - Invernadero ESP32
 
 const int LED_VERDE = 25;
 const int LED_AMARILLO = 26;
 const int LED_ROJO = 27;
 const int BOTON1 = 14;
 const int BOTON2 = 12;
+const int LM35_PIN = 34;
+const int DAC_PIN = 25;
 
 // --- Variables globales ---
 float temperatura = 0;
+bool modoSimulacion = false;
+
+float sumaTemperaturas = 0;
+int contadorTotal = 0;
+int contadorVentana = 0;
+float ventanaTemps[5];
+
 int boton1_estado = HIGH;
 int boton2_estado = HIGH;
+unsigned long tiempoDebounce1 = 0;
+unsigned long tiempoDebounce2 = 0;
+const unsigned long DEBOUNCE_DELAY = 50;
+
+bool sistemaActivo = true;
 
 void setup() {
   Serial.begin(115200);
