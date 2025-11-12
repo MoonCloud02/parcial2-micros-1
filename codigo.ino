@@ -159,3 +159,32 @@ void manejarBoton1() {
     
     contadorVentana = 0;
   }
+}
+
+void manejarBoton2() {
+  if (contadorTotal > 0) {
+    float promedioTotal = sumaTemperaturas / contadorTotal;
+    Serial.print("Promedio total: ");
+    Serial.print(promedioTotal);
+    Serial.print(" C (");
+    Serial.print(contadorTotal);
+    Serial.println(" mediciones)");
+  } else {
+    Serial.println("No hay mediciones registradas");
+  }
+  
+  Serial.println("Generando señal de aviso...");
+  for (int i = 0; i < 3; i++) {
+    dacWrite(DAC_PIN, 255);
+    delay(200);
+    dacWrite(DAC_PIN, 0);
+    delay(200);
+  }
+  
+  digitalWrite(LED_VERDE, LOW);
+  digitalWrite(LED_AMARILLO, LOW);
+  digitalWrite(LED_ROJO, LOW);
+  
+  Serial.println("Sistema finalizado");
+  sistemaActivo = false;
+}
