@@ -24,12 +24,25 @@ unsigned long tiempoDebounce2 = 0;
 const unsigned long DEBOUNCE_DELAY = 50;
 
 bool sistemaActivo = true;
-
+  
 void setup() {
+  pinMode(LED_VERDE, OUTPUT);
+  pinMode(LED_AMARILLO, OUTPUT);
+  pinMode(LED_ROJO, OUTPUT);
+  pinMode(BOTON1, INPUT);
+  pinMode(BOTON2, INPUT);
+  pinMode(LM35_PIN, INPUT);
+  
+  analogReadResolution(12);
+  analogSetAttenuation(ADC_11db);
+  
   Serial.begin(115200);
-  Serial.println("=== SIMULACION SISTEMA DE TEMPERATURA - INVERNADERO ===");
-  Serial.println("Presione Botón 1 para mostrar temperatura");
-  Serial.println("Presione Botón 2 para reiniciar el sistema\n");
+  Serial.println("=== SISTEMA DE TEMPERATURA - INVERNADERO ===");
+  Serial.println("Comandos Serial:");
+  Serial.println("  T=<valor> - Simular temperatura (ej: T=32.5)");
+  Serial.println("  B1=1 - Simular presion Boton 1");
+  Serial.println("  B2=1 - Simular presion Boton 2");
+  Serial.println("Modo: Sensor real (envia T=<valor> para simular)\n");
 }
 
 void loop() {
