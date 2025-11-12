@@ -43,6 +43,7 @@ void setup() {
   Serial.println("  B1=1 - Simular presion Boton 1");
   Serial.println("  B2=1 - Simular presion Boton 2");
   Serial.println("Modo: Sensor real (envia T=<valor> para simular)\n");
+
 }
 
 void loop() {
@@ -79,4 +80,16 @@ void loop() {
   }
 
   Serial.println("--------------------------------------");
+}
+
+
+float leerTemperatura() {
+  if (modoSimulacion) {
+    return temperatura;
+  }
+  
+  int cuentasADC = analogRead(LM35_PIN);
+  float voltios = (cuentasADC / 4095.0) * 3.3;
+  float tempC = voltios / 0.01;
+  return tempC;
 }
