@@ -93,3 +93,24 @@ float leerTemperatura() {
   float tempC = voltios / 0.01;
   return tempC;
 }
+
+void controlarLEDs(float temp) {
+  if (temp <= 25) {
+    digitalWrite(LED_VERDE, HIGH);
+    digitalWrite(LED_AMARILLO, LOW);
+    digitalWrite(LED_ROJO, LOW);
+    Serial.println("Temperatura baja. Activando calefaccion.");
+  } 
+  else if (temp >= 26 && temp <= 49) {
+    digitalWrite(LED_VERDE, LOW);
+    digitalWrite(LED_AMARILLO, HIGH);
+    digitalWrite(LED_ROJO, LOW);
+    Serial.println("Temperatura optima. Sistema en espera.");
+  } 
+  else {
+    digitalWrite(LED_VERDE, LOW);
+    digitalWrite(LED_AMARILLO, LOW);
+    digitalWrite(LED_ROJO, HIGH);
+    Serial.println("Temperatura alta. Desactivando calefaccion.");
+  }
+}
