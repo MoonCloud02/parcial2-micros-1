@@ -114,3 +114,24 @@ void controlarLEDs(float temp) {
     Serial.println("Temperatura alta. Desactivando calefaccion.");
   }
 }
+
+void procesarComandoSerial() {
+  String comando = Serial.readStringUntil('\n');
+  comando.trim();
+  
+  if (comando.startsWith("T=")) {
+    temperatura = comando.substring(2).toFloat();
+    modoSimulacion = true;
+    Serial.print("Modo simulacion. T=");
+    Serial.print(temperatura);
+    Serial.println(" C");
+  }
+  else if (comando == "B1=1") {
+    Serial.println("Boton 1 simulado");
+    manejarBoton1();
+  }
+  else if (comando == "B2=1") {
+    Serial.println("Boton 2 simulado");
+    manejarBoton2();
+  }
+}
