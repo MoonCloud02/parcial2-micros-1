@@ -135,3 +135,27 @@ void procesarComandoSerial() {
     manejarBoton2();
   }
 }
+
+void manejarBoton1() {
+  ventanaTemps[contadorVentana] = temperatura;
+  contadorVentana++;
+  contadorTotal++;
+  sumaTemperaturas += temperatura;
+
+  Serial.print("Medicion registrada: ");
+  Serial.print(temperatura);
+  Serial.println(" C");
+
+  if (contadorVentana == 5) {
+    float promedio = 0;
+    for (int i = 0; i < 5; i++) {
+      promedio += ventanaTemps[i];
+    }
+    promedio /= 5.0;
+    
+    Serial.print("Promedio de 5 mediciones: ");
+    Serial.print(promedio);
+    Serial.println(" C");
+    
+    contadorVentana = 0;
+  }
