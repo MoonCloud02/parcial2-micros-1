@@ -47,39 +47,42 @@ void setup() {
 }
 
 void loop() {
-  // --- Simulación del LM35 ---
-  // En lugar de leer el ADC, generamos una temperatura aleatoria entre 25 y 50 °C
-  temperatura = random(250, 500) / 10.0;  // genera un valor entre 25.0 y 50.0
-  delay(1000);
-
-  // --- Decisión según temperatura ---
-  if (temperatura < 30) {
-    Serial.println("LED Verde ENCENDIDO | Amarillo y Rojo APAGADOS");
-  } 
-  else if (temperatura >= 30 && temperatura <= 40) {
-    Serial.println("LED Amarillo ENCENDIDO | Verde y Rojo APAGADOS");
-  } 
-  else {
-    Serial.println("LED Rojo ENCENDIDO | Verde y Amarillo APAGADOS");
+  if (!sistemaActivo) {
+    return;
   }
-
-  // --- Simulación de Botones ---
-  // (Para simular en serial, se pueden enviar comandos manualmente desde el monitor)
+  
   if (Serial.available() > 0) {
-    char comando = Serial.read();
-
-    if (comando == '1') {  // Simula Botón 1
-      Serial.print("Temperatura actual: ");
-      Serial.print(temperatura);
-      Serial.println(" °C");
-    }
-
-    if (comando == '2') {  // Simula Botón 2
-      Serial.println("Sistema reiniciado (todos los LEDs apagados)");
+    procesarComandoSerial();
+  }
+  
+  temperatura = leerTemperatura();
+  
+  Serial.print("Temperatura: ");
+  Serial.print(temperatura);
+  Serial.println(" C");
+  
+  controlarLEDs(temperatura);
+  
+  int estadoB1 = digitalRead(BOTON1);
+  if (estadoB1 == HIGH && boton1Anterior == LOW) {
+    if (millis() - tiempoDebounce1 > DEBOUNCE_DELAY) {
+      manejarBoton1();
+      tiempoDebounce1 = millis();
     }
   }
-
+  boton1Anterior = estadoB1;
+  
+  int estadoB2 = digitalRead(BOTON2);
+  if (estadoB2 == HIGH && boton2Anterior == LOW) {
+    if (millis() - tiempoDebounce2 > DEBOUNCE_DELAY) {
+      manejarBoton2();
+      tiempoDebounce2 = millis();
+    }
+  }
+  boton2Anterior = estadoB2;
+  
   Serial.println("--------------------------------------");
+  delay(1000);
 }
 
 
