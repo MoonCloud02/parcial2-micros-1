@@ -4,8 +4,8 @@ Sistema de monitoreo de temperatura para invernadero usando ESP32, sensor LM35, 
 
 ## Autores
 
-Miguel Angel Luna Garcia
-Gustavo Adolfo Quintero
+- Miguel Angel Luna Garcia
+- Gustavo Adolfo Quintero
 
 ## Pinout ESP32
 
