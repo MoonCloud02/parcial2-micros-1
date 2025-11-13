@@ -2,6 +2,11 @@
 
 Sistema de monitoreo de temperatura para invernadero usando ESP32, sensor LM35, LEDs indicadores y botones de control.
 
+## Autores
+
+Miguel Angel Luna Garcia
+Gustavo Adolfo Quintero
+
 ## Pinout ESP32
 
 | Componente | Pin ESP32 | Descripción |
@@ -254,10 +259,5 @@ La simulación incluye:
 2. Enviar: `T=28` → LED Amarillo
 3. Enviar: `B1=1` → Toma 5 muestras automáticamente y muestra el promedio
 4. Enviar: `B2=1` → Finalizar sistema
-
-## Autores
-
-Miguel Angel Luna Garcia
-Gustavo Adolfo Quintero
 
 Parcial II - Microcontroladores I
