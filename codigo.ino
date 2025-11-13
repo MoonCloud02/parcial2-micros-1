@@ -6,7 +6,7 @@ const int LED_ROJO = 27;
 const int BOTON1 = 14;
 const int BOTON2 = 12;
 const int LM35_PIN = 34;
-const int DAC_PIN = 25;
+const int DAC_PIN = 26;  // GPIO 26 (DAC2)
 
 // --- Variables globales ---
 float temperatura = 0;
