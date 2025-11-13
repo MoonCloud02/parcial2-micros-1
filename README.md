@@ -43,6 +43,77 @@ Se activa enviando comandos por Serial.
 | `B1=1` | Simular presión Botón 1 | `B1=1` |
 | `B2=1` | Simular presión Botón 2 | `B2=1` |
 
+## Diagrama de Flujo del Sistema
+
+```mermaid
+flowchart TD
+    Start([Inicio]) --> Setup[Setup:<br/>Configurar pines<br/>Iniciar Serial 115200]
+    Setup --> Loop{Sistema<br/>Activo?}
+    
+    Loop -->|No| End([Fin])
+    Loop -->|Sí| CheckSerial{Datos en<br/>Serial?}
+    
+    CheckSerial -->|Sí| ProcessCmd[Procesar Comando Serial]
+    CheckSerial -->|No| ReadTemp
+    
+    ProcessCmd --> CheckCmd{Tipo de<br/>Comando?}
+    CheckCmd -->|T=valor| SetSimTemp[Activar modo simulación<br/>Establecer temperatura]
+    CheckCmd -->|B1=1| CallBtn1[Llamar manejarBoton1]
+    CheckCmd -->|B2=1| CallBtn2[Llamar manejarBoton2]
+    
+    SetSimTemp --> ReadTemp
+    CallBtn1 --> ReadTemp
+    CallBtn2 --> ReadTemp
+    
+    ReadTemp[Leer Temperatura<br/>Sensor o Simulada]
+    ReadTemp --> RegisterTemp[Registrar en suma<br/>Incrementar contador]
+    RegisterTemp --> DisplayTemp[Mostrar Temperatura<br/>en Serial]
+    DisplayTemp --> ControlLED{Temperatura?}
+    
+    ControlLED -->|≤ 25°C| LED1[LED Verde ON<br/>Activar calefacción]
+    ControlLED -->|26-49°C| LED2[LED Amarillo ON<br/>Sistema en espera]
+    ControlLED -->|≥ 50°C| LED3[LED Rojo ON<br/>Desactivar calefacción]
+    
+    LED1 --> CheckBtn1
+    LED2 --> CheckBtn1
+    LED3 --> CheckBtn1
+    
+    CheckBtn1{Botón 1<br/>Presionado?}
+    CheckBtn1 -->|Sí| Btn1Handler[manejarBoton1:<br/>Tomar 5 muestras]
+    CheckBtn1 -->|No| CheckBtn2
+    
+    Btn1Handler --> Sample1[Bucle: i=0 a 4]
+    Sample1 --> ReadSample[Leer muestra i<br/>Mostrar en Serial]
+    ReadSample --> Delay500{i < 4?}
+    Delay500 -->|Sí| Wait[Esperar 500ms]
+    Delay500 -->|No| CalcAvg
+    Wait --> Sample1
+    CalcAvg[Calcular Promedio<br/>de 5 muestras] --> ShowAvg[Mostrar Promedio<br/>en Serial]
+    ShowAvg --> CheckBtn2
+    
+    CheckBtn2{Botón 2<br/>Presionado?}
+    CheckBtn2 -->|Sí| Btn2Handler[manejarBoton2]
+    CheckBtn2 -->|No| DelayLoop
+    
+    Btn2Handler --> ShowTotal[Mostrar Promedio Total<br/>y cantidad de mediciones]
+    ShowTotal --> Buzzer[Generar señal DAC<br/>3 pulsos de 200ms]
+    Buzzer --> LEDsOff[Apagar todos<br/>los LEDs]
+    LEDsOff --> Deactivate[sistemaActivo = false]
+    Deactivate --> DelayLoop
+    
+    DelayLoop[Esperar 1 segundo] --> Loop
+    
+    style Start fill:#90EE90
+    style End fill:#FFB6C1
+    style Loop fill:#FFE4B5
+    style ControlLED fill:#87CEEB
+    style CheckBtn1 fill:#DDA0DD
+    style CheckBtn2 fill:#DDA0DD
+    style Btn1Handler fill:#F0E68C
+    style Btn2Handler fill:#FFA07A
+    style Deactivate fill:#FF6B6B
+```
+
 ## Funcionamiento
 
 ### Control de LEDs (Umbrales)
@@ -150,6 +221,18 @@ GPIO 27 → Resistencia 220Ω → LED Rojo → GND
 ```
 GPIO 26 (DAC2) → Buzzer pasivo → GND
 ```
+
+## Simulación Online
+
+Puedes probar el proyecto directamente en tu navegador sin necesidad de hardware:
+
+🔗 **[Abrir simulación en Wokwi](https://wokwi.com/projects/447462154562945025)**
+
+La simulación incluye:
+- ESP32 con todos los componentes conectados
+- Sensor LM35 con temperatura ajustable
+- LEDs indicadores y buzzer
+- Monitor serial para comandos y visualización
 
 ## Compilación y Carga
 
