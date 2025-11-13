@@ -19,6 +19,8 @@ float ventanaTemps[5];
 
 int boton1_estado = HIGH;
 int boton2_estado = HIGH;
+int boton1Anterior = LOW;
+int boton2Anterior = LOW;
 unsigned long tiempoDebounce1 = 0;
 unsigned long tiempoDebounce2 = 0;
 const unsigned long DEBOUNCE_DELAY = 50;
