@@ -59,6 +59,10 @@ void loop() {
   
   temperatura = leerTemperatura();
   
+  // Registrar cada temperatura leída para el promedio total
+  sumaTemperaturas += temperatura;
+  contadorTotal++;
+  
   Serial.print("Temperatura: ");
   Serial.print(temperatura);
   Serial.println(" C");
@@ -162,9 +166,9 @@ void manejarBoton1() {
   }
   
   promedio /= 5.0;
-  contadorTotal += 5;
-  sumaTemperaturas += (promedio * 5);
   
+  // Las muestras ya se están registrando en el loop, 
+  // aquí solo mostramos el promedio de las 5 mediciones tomadas
   Serial.print("Promedio de 5 mediciones: ");
   Serial.print(promedio);
   Serial.println(" C");
